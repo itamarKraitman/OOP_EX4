@@ -1,7 +1,7 @@
 import json
 import math
 
-from Location import Location
+from graph.Location import Location
 
 
 class Pokemon:

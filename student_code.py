@@ -8,7 +8,6 @@ import json
 from pygame import gfxdraw
 import pygame
 from pygame import *
-from utilities import Utilities
 
 # init pygame
 WIDTH, HEIGHT = 1080, 720

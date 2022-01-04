@@ -1,6 +1,6 @@
 import copy
 
-from Location import Location
+from graph.Location import Location
 
 
 class Node:
