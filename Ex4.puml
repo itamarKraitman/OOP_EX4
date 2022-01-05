@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Model
+class Controller
+class View
+object Server
+class Client
+
+class Client{
+handles server queries
+start_connection()
+get_agents()
+add_agent()
+get_graph()
+get_info()
+is_running()
+time_to_end()
+start()
+stop()
+move()
+choose_next_edge()
+}
+
+object Server{
+Contains & distributes game state & data
+to client upon request
+}
+
+
+class Model{
+builds & holds data structures
+decided which agent to send
+create_pokemon()
+create_agent()
+create_graph()
+get_update()
+decide_agent()
+get_state()
+}
+
+class View{
+Graphical User Interface
+get_data()
+get_agent()
+get_pokemon()
+draw()
+refresh()
+}
+
+class Controller {
+starts and controls the game
+limits calls to 10 per second
+parse_pokemon()
+parse_agents()
+start_game()
+get_game_state()
+get_time()
+make_decision()
+update_view()
+return_error()
+}
+
+Controller --o Model
+View o-- Controller
+Client --o Controller
+Server <--> Client
+
+
+
+
+@enduml
