@@ -1,4 +1,19 @@
 
+from data import Pokemon
+from data import Agent
+
+pokemons = {}
+agents = {}
+
+def create_pokemons(poke_dict:dict):
+    pass
+
+def create_agents(agent_dict:dict):
+    pass
+
+def create_graph(graph_dict:dict):
+    pass
+
 
 # choose next edge
     for agent in agents:
