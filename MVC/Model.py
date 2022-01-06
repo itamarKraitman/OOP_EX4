@@ -1,5 +1,5 @@
-from data import Pokemon
-from data import Agent
+import Pokemon
+import Agent
 from graph import Graph, GraphAlgo
 
 pokemons = []
@@ -53,11 +53,18 @@ def create_graph(graph_info: dict):
             graph_load.add_edge(src, dest, weight)
             graph_load.add_rev_edge(dest, src, weight)
 
-    # choose next edge
-    for agent in agents:
-        if agent.dest == -1:
-            next_node = (agent.src - 1) % len(graph.Nodes)
-            client.choose_next_edge(
-                '{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(next_node) + '}')
-            ttl = client.time_to_end()
-            print(ttl, client.get_info())
+def distance_from_pokemon():
+    """
+    returns the distance between agent to all pokemons in order to decide to which pokemon go
+    using TSP/SP
+    :return:
+    """
+    pass
+
+def get_pokemons_values():
+    """
+    returns all pokemons values
+    :return:
+    """
+    pass
+

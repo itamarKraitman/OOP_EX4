@@ -52,6 +52,7 @@ def parse_pokemon():
         i += 1
     Model.create_pokemons(pokemons_dictonary)
 
+
 def parse_agents():
     agents_dictonary = {}
     i = 0
@@ -59,7 +60,8 @@ def parse_agents():
     agents_str = json.loads(agents_json)
     agents = agents_str.get("Agents")
     for agent in agents:
-        agent_dict = {"id": agent.get("id"), "value": agent.get("value"), "src": agent.get("src"), "dest": agent.get("dest"),
+        agent_dict = {"id": agent.get("id"), "value": agent.get("value"), "src": agent.get("src"),
+                      "dest": agent.get("dest"),
                       "speed": agent.get("speed"), "pos": agent.get("pos")}
         agents_dictonary[i] = agent_dict
     Model.create_agents(agents_dictonary)
@@ -72,14 +74,18 @@ def parse_graph():
     edge_data = data.get("Edges")
     Model.create_graph({"nodes": node_data, "edges": edge_data})
 
+
 def get_pokemons():
     return Model.pokemons
 
+
 def get_agents():
-    return  Model.agents
+    return Model.agents
+
 
 def get_graph():
-    return  Model.graph_load
+    return Model.graph_load
+
 
 def update_agents():
     pass
@@ -105,7 +111,6 @@ def get_time() -> str:
 
 
 def make_decision():
-
     pass
 
 
