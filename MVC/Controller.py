@@ -2,6 +2,7 @@ from types import SimpleNamespace
 from client import Client
 import json
 from MVC import Model
+from graph import Graph
 
 # default port
 PORT = 6666
@@ -40,19 +41,45 @@ client.add_agent("{\"id\":0}")
 
 
 def parse_pokemon():
-    pokemons = client.get_pokemons()
-    Model.create_pokemons(pokemons)
-
+    pokemons_dictonary = {}
+    i = 0
+    pokemons_json = client.get_pokemons()
+    pokemons_str = json.loads(pokemons_json)
+    pokemons = pokemons_str.get("Pokemons")
+    for pokemon in pokemons:
+        pokemon_dict = {"value": pokemon.get("value"), "type": pokemon.get("type"), "pos": pokemon.get("pos")}
+        pokemons_dictonary[i] = pokemon_dict
+        i += 1
+    Model.create_pokemons(pokemons_dictonary)
 
 def parse_agents():
-    agents = client.get_agents()
-    Model.create_agents(agents)
+    agents_dictonary = {}
+    i = 0
+    agents_json = client.get_agents()
+    agents_str = json.loads(agents_json)
+    agents = agents_str.get("Agents")
+    for agent in agents:
+        agent_dict = {"id": agent.get("id"), "value": agent.get("value"), "src": agent.get("src"), "dest": agent.get("dest"),
+                      "speed": agent.get("speed"), "pos": agent.get("pos")}
+        agents_dictonary[i] = agent_dict
+    Model.create_agents(agents_dictonary)
 
 
 def parse_graph():
     graph = client.get_graph()
-    Model.create_graph(graph)
+    data = json.loads(graph)
+    node_data = data.get("Nodes")
+    edge_data = data.get("Edges")
+    Model.create_graph({"nodes": node_data, "edges": edge_data})
 
+def get_pokemons():
+    return Model.pokemons
+
+def get_agents():
+    return  Model.agents
+
+def get_graph():
+    return  Model.graph_load
 
 def update_agents():
     pass
