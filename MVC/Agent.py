@@ -7,6 +7,7 @@ class Agent:
         self._dest = _dest
         self._speed = _speed
         self._pos = _pos
+        self.path = []
 
     def get_id(self):
         return self._id
@@ -43,3 +44,24 @@ class Agent:
 
     def set_pos(self, new_pos: tuple):
         self._pos = new_pos
+
+    def add_path(self, l: list):
+        for i in l:
+            self.path.append(i)
+
+    def get_path(self):
+        return self.path
+
+    def get_path_head(self):
+        return self.path[0]
+
+    def path_pop(self):
+        head = self.path[0]
+        self.path.pop(0)
+        return head
+
+    def set_path(self,path: list):
+        self.path = path
+
+
+

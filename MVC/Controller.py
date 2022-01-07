@@ -2,42 +2,18 @@ from types import SimpleNamespace
 from client import Client
 import json
 from MVC import Model
+import time
 from graph import Graph
 
-# default port
-PORT = 6666
-# server host (default localhost 127.0.0.1)
-HOST = '127.0.0.1'
+"""
 
-client = Client()
-client.start_connection(HOST, PORT)
+===============================================================================
+START of code block consisting of function which will be used by the controller
+===============================================================================
 
-'''
-pokemons = client.get_pokemons()
-# Amazing Python one-liner for parsing JSON objects -
-# from - https://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object
-pokemons_obj = json.loads(pokemons, object_hook=lambda d: SimpleNamespace(**d))
+"""
 
-print(pokemons)
-
-graph_json = client.get_graph()
-
-# Amazing Python one-liner for parsing JSON objects -
-# from - https://stackoverflow.com/questions/6578986/how-to-convert-json-data-into-a-python-object
-graph = json.loads(
-    graph_json, object_hook=lambda json_dict: SimpleNamespace(**json_dict))
-
-for n in graph.Nodes:
-    x, y, _ = n.pos.split(',')
-    n.pos = SimpleNamespace(x=float(x), y=float(y))
-'''
-
-client.add_agent("{\"id\":0}")
-
-
-# client.add_agent("{\"id\":1}")
-# client.add_agent("{\"id\":2}")
-# client.add_agent("{\"id\":3}")
+global pokemon_JSON
 
 
 def parse_pokemon():
@@ -45,6 +21,7 @@ def parse_pokemon():
     i = 0
     pokemons_json = client.get_pokemons()
     pokemons_str = json.loads(pokemons_json)
+    globals()[pokemon_JSON] = json.loads(pokemons_json)
     pokemons = pokemons_str.get("Pokemons")
     for pokemon in pokemons:
         pokemon_dict = {"value": pokemon.get("value"), "type": pokemon.get("type"), "pos": pokemon.get("pos")}
@@ -87,23 +64,16 @@ def get_graph():
     return Model.graph_load
 
 
-def update_agents():
-    pass
-
-
 def update_pokemons():
-    pass
+    if globals()[pokemon_JSON] != json.loads(client.get_pokemons()):
+        parse_pokemon()
 
 
-# Once we parse everything and all the objects are loaded, start the game
-def start_game():
-    client.start()
-    pass
-
-
-def get_game_state():
-    info = client.get_info()
-    print(info)
+def get_number_of_agents():
+    info = json.loads(client.get_info())
+    no_a = info.get("GameServer")
+    number_of_agents = no_a.get("agents")
+    return number_of_agents
 
 
 def get_time() -> str:
@@ -120,3 +90,57 @@ def update_view():
 
 def return_error():
     pass
+
+
+"""
+
+===============================================================================
+END of functions code block, main code below
+===============================================================================
+
+"""
+
+if __name__ == '__main__':
+    # default port
+    PORT = 6666
+    # server host (default localhost 127.0.0.1)
+    HOST = '127.0.0.1'
+
+    client = Client()
+    client.start_connection(HOST, PORT)
+
+    parse_graph()
+    parse_pokemon()
+    parse_agents()
+    print(json.loads(client.get_info()))
+
+    graph = get_graph()
+    poke_list = get_pokemons()
+    agent_list = get_agents()
+
+    # Get how many agents are in the game
+    no_of_agents = get_number_of_agents()
+
+    # Initial phase - insert all agents in the center of the graph
+    for i in no_of_agents:
+        client.add_agent("{\"id\":" + str(Model.graph_algo.centerPoint()) + "}")
+
+    # We are ready to start the game & timer
+    client.start()
+    start_time = time.time()
+
+    # TODO: initial edge choice logic will go here
+    client.move()
+
+    while client.is_running() == 'true':
+        # if there is less than 500ms left, stop
+        if int(client.time_to_end()) <= 500:
+            info = json.loads(client.get_info())
+            print(info)
+            client.stop()
+            break
+
+        # TODO: main edge coice logic will go here
+        client.move()
+
+    client.stop_connection()
