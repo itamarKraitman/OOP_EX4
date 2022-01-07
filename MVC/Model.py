@@ -84,7 +84,7 @@ def quadratic_formula(a, b, c):
 
 def _set_pokemon_src_dest(p: Pokemon):
     for edge in graph_load.edges:
-        dist_poke2src = Location.distance(p.get_pos(), edge.getSrc())
+        dist_poke2src = Location.distance(p.get_pos(),graph_load.nodes.get(edge).getPosition())
         dist_poke2dest = Location.distance(p.get_pos(), edge.getDest())
         dist_poke2edge = Location.distance_to_edge(p.get_pos, edge.getSrc(), edge.getDest())
         if abs(dist_poke2src + dist_poke2dest - dist_poke2edge) < 0.00000001:

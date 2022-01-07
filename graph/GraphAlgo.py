@@ -4,7 +4,7 @@ import sys
 from collections import deque
 from typing import List
 
-from Graph import Graph
+from graph import Graph
 
 '''
 This class is used to perform various algorithms on the underlying directed weighted graph.

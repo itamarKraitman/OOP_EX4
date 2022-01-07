@@ -11,15 +11,16 @@ START of code block consisting of function which will be used by the controller
 
 """
 
-global pokemon_JSON
+pokemon_prev_JSON = ""
 
 
 def parse_pokemon():
+    global pokemon_prev_JSON
     pokemons_dictonary = {}
     k = 0
     pokemons_json = client.get_pokemons()
     pokemons_str = json.loads(pokemons_json)
-    globals()[pokemon_JSON] = json.loads(pokemons_json)
+    globals()[pokemon_prev_JSON] = json.loads(pokemons_json)
     pokemons = pokemons_str.get("Pokemons")
     for pokemon in pokemons:
         pokemon_dict = {"value": pokemon.get("value"), "type": pokemon.get("type"), "pos": pokemon.get("pos")}
@@ -64,8 +65,16 @@ def get_graph():
 
 
 def update_pokemons():
-    if globals()[pokemon_JSON] != json.loads(client.get_pokemons()):
+    global pokemon_prev_JSON
+    if globals()[pokemon_prev_JSON] != json.loads(client.get_pokemons()):
         parse_pokemon()
+
+
+# TODO: is this needed?
+def update_agent_pos():
+    pos_list = json.loads(client.get_agents())
+    for i in agent_list:
+        agent_list[i].set_pos(pos_list['Agents']['agent'])
 
 
 def get_number_of_agents():
@@ -135,7 +144,7 @@ if __name__ == '__main__':
         Model.allocate_pokemon_to_agent(agent_list, poke)
     for agent in agent_list:
         client.choose_next_edge('{"agent_id":' + str(agent_list[agent].get_id()) + ', "next_node_id":'
-                                + str(agent_list[agent].path_pop()))
+                                + str(agent_list[agent].get_path_head()))
     client.move()
 
     while client.is_running() == 'true':
@@ -148,6 +157,12 @@ if __name__ == '__main__':
 
         update_pokemons()
         make_decision()
+        for agent in agent_list:
+            if agent_list[agent].get_dest() == -1: # TODO: how to update agent position?
+                client.choose_next_edge('{"agent_id":' + str(agent_list[agent].get_id()) + ', "next_node_id":'
+                                        + str(agent_list[agent].path_pop()))
+
+        # TODO: limit to 10 calls per second
         client.move()
 
     client.stop_connection()
