@@ -1,6 +1,6 @@
 class Agent:
 
-    def __init__(self, _id: int, _value: float, _src: int, _dest: int, _speed: float, _pos: tuple):
+    def __init__(self, _id: int, _value: float, _src: int, _dest: int, _speed: float, _pos: int):
         self._id = _id
         self._value = _value
         self._src = _src

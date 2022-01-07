@@ -41,6 +41,7 @@ def parse_agents():
                       "dest": agent.get("dest"),
                       "speed": agent.get("speed"), "pos": agent.get("pos")}
         agents_dictonary[i] = agent_dict
+        i += 1
     Model.create_agents(agents_dictonary)
 
 

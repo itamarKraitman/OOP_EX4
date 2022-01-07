@@ -13,7 +13,7 @@ It supports these algorithms:
     * Dijkstr'a Shortest Path
     * Determining if a graph is strongly connected
     * Finding the center of the graph
-    * Augmented TSP 
+    * TSP 
 
 This class also plots the graph and displays it to the user using tkinter
 '''
@@ -117,45 +117,24 @@ class GraphAlgo:
             node.weight = math.inf
 
     """
-    Augmented TSP algorithm, given a list of nodes in the graph, calculate
-    a path which visits all nodes - we can visit each node more than once and also
-    travel through other nodes in the graph which are not in the list
-    We use nearest neighbour approximation algorithm here
+    TSP algorithm to find optimal route between a group of nodes.
+    algorithm runs in O(n^2 * 2^n)
     """
 
-    def TSP(self, node_lst: List[int]) -> (List[int], float):
-        global current_node
-        if node_lst is None or len(node_lst) == 0:
-            return None
-
-        nearest_neighbour = node_lst[0]
-        path = []
+    def tsp(self, node_lst: List[int]) -> (List[int], float):
+        shortest_path_weight = sys.maxsize
         total_path_weight = 0
-
-        # We keep going as long as there's more than 1 node in our list
-        # One node is not enough to calculate TSP solution
-        while len(node_lst) > 1:
-            node_lst.remove(nearest_neighbour)
-            min_length = math.inf
-            temp_path = []
-            for city in range(len(node_lst)):
-                temp = self.shortest_path(nearest_neighbour, node_lst[city])
-                if temp[0] == math.inf:
-                    break
-                if temp[0] < min_length:
-                    min_length = temp[0]
-                    temp_path = temp[1]
-                    current_node = node_lst[city]
-
-            if len(path) == 0:
-                path.extend(temp_path)
-            else:
-                temp_path.pop(0)
-                path.extend(temp_path)
-
-            total_path_weight = total_path_weight + min_length
-            nearest_neighbour = current_node
-
+        minimum = 0
+        path = []
+        for i in range(len(node_lst)):
+            for j in range(len(node_lst)):
+                curr_path_weight = self.shortest_path(i, j)[0]
+                if shortest_path_weight > curr_path_weight:
+                    minimum = j
+                    shortest_path_weight = curr_path_weight
+                total_path_weight += shortest_path_weight
+                path.append(self.shortest_path(i, minimum)[1])
+                node_lst.pop(i)
         return path, total_path_weight
 
     """
@@ -193,7 +172,8 @@ class GraphAlgo:
 
             return node_id
         else:
-            return None
+            # if no center is found, graph is not strongly connected
+            return 0
 
     # A simple DFS implementation using a double-edged queue acting as a stack
     def DFS(self, v: int, b: bool):
