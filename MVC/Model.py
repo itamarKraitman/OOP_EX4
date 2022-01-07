@@ -1,3 +1,5 @@
+import sys
+
 from MVC import Agent, Pokemon
 from graph import Graph, GraphAlgo, Location
 import math
@@ -74,7 +76,7 @@ def get_pokemons_values():
     pass
 
 
-def quadratic_formula(self, a, b, c):
+def quadratic_formula(a, b, c):
     x1 = ((-b) + math.sqrt((b ** 2) - (4 * a * c))) / (2 * a)
     x2 = ((-b) - math.sqrt((b ** 2) - (4 * a * c))) / (2 * a)
     return x1, x2
@@ -96,4 +98,17 @@ def _set_pokemon_src_dest(p: Pokemon):
                 break
 
 
-
+def allocate_pokemon_to_agent(agent_list: list, poke: Pokemon):
+    min_weight = sys.maxsize
+    min_path = []
+    min_agent_id = 0
+    for i in range(len(agent_list)):
+        temp_path = agent_list[i].get_path().append(poke)
+        temp_min_path, temp_min_weight = graph_algo.tsp(temp_path)
+        if min_weight > temp_min_weight:
+            min_weight = temp_min_weight
+            min_agent_id = i
+            min_path = temp_path
+    agent_list[min_agent_id].add_path(min_path)
+    agents[min_agent_id] = agent_list[min_agent_id]
+    # TODO: should this return anything?

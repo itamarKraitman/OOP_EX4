@@ -45,8 +45,8 @@ class Agent:
     def set_pos(self, new_pos: tuple):
         self._pos = new_pos
 
-    def add_path(self, l: list):
-        for i in l:
+    def add_path(self, lst: list):
+        for i in lst:
             self.path.append(i)
 
     def get_path(self):
@@ -60,8 +60,5 @@ class Agent:
         self.path.pop(0)
         return head
 
-    def set_path(self,path: list):
+    def set_path(self, path: list):
         self.path = path
-
-
-

@@ -2,7 +2,6 @@ from pygame import gfxdraw
 import pygame
 from pygame import *
 from MVC import Model, Controller
-from client import Client
 
 
 def scale(data, min_screen, max_screen, min_data, max_data):
@@ -12,12 +11,10 @@ def scale(data, min_screen, max_screen, min_data, max_data):
     """
     return ((data - min_data) / (max_data - min_data)) * (max_screen - min_screen) + min_screen
 
-    # class View:
-
 
 Controller.parse_graph()
 graph = Controller.get_graph()
-client = Client()
+
 pygame.init()
 # init pygame
 WIDTH, HEIGHT = 1080, 720
@@ -43,7 +40,14 @@ def my_scale(data, x=False, y=False):
         return scale(data, 50, screen.get_height() - 50, min_y, max_y)
 
 
-while client.is_running() == 'true':
+def is_running():
+    if Controller.client.is_running() == 'true':
+        return True
+    else:
+        return False
+
+
+while is_running():
 
     # check events
     for event in pygame.event.get():

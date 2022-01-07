@@ -1,4 +1,3 @@
-from graph import Location
 
 class Pokemon:
 
@@ -21,8 +20,8 @@ class Pokemon:
     def set_value(self, value: float):
         self._value = value
 
-    def set_type(self, type: int):
-        self._type = type
+    def set_type(self, new_type: int):
+        self._type = new_type
 
     def set_pos(self, pos: tuple):
         self._pos = pos
