@@ -120,6 +120,7 @@ if __name__ == '__main__':
     graph = get_graph()
 
     parse_pokemon()
+    # pokemons = get_pokemons()
     # Get how many agents are in the game
     no_of_agents = get_number_of_agents()
 
@@ -161,7 +162,7 @@ if __name__ == '__main__':
                 client.choose_next_edge('{"agent_id":' + str(agent_list[agent].get_id()) + ', "next_node_id":'
                                         + str(agent_list[agent].path_pop())+'}')
 
-        # TODO: limit to 10 calls per second
+        # TODO: limit to 10 calls per second- pygame clock.tick()
         client.move()
 
     client.stop_connection()

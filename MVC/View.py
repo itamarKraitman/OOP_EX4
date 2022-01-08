@@ -2,6 +2,7 @@ from pygame import gfxdraw
 import pygame
 from pygame import *
 from MVC import Model, Controller
+from client import Client
 
 
 def scale(data, min_screen, max_screen, min_data, max_data):
@@ -11,6 +12,8 @@ def scale(data, min_screen, max_screen, min_data, max_data):
     """
     return ((data - min_data) / (max_data - min_data)) * (max_screen - min_screen) + min_screen
 
+
+client = Client()
 
 Controller.parse_graph()
 graph = Controller.get_graph()

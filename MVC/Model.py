@@ -109,14 +109,34 @@ def allocate_pokemon_to_agent(agent_list: list, poke: Pokemon):
     min_weight = sys.maxsize
     min_path = []
     min_agent_id = 0
+
     for i in range(len(agent_list)):
+        temp_min_path = []
+        temp_min_weight = 0
         temp_path = agent_list[i].get_path()
+        temp_path.append(agent_list[i].get_src())
         temp_path.append(poke.get_src())
-        temp_min_path, temp_min_weight = graph_algo.tsp(temp_path)
+        temp_path.append(poke.get_dest())
+        # temp_min_path, temp_min_weight = graph_algo.TSP(temp_path)
+        for x1 in range(len(temp_path) - 1):
+            dist, res_path = graph_algo.shortest_path(temp_path[x1], temp_path[x1 + 1])
+            temp_min_path.extend(res_path)
+            temp_min_weight += dist
         if min_weight > temp_min_weight:
             min_weight = temp_min_weight
             min_agent_id = i
-            min_path = temp_path
+            min_path = temp_min_path
     agent_list[min_agent_id].add_path(min_path)
     agents[min_agent_id] = agent_list[min_agent_id]
+    # result = []
+    # pick = []
+    # min = 0
+    # max = len(agent_list)
+    # i = 0
+    # a = None
+    # for agent in agent_list:
+    #     distance, path = graph_algo.shortest_path(agent.get_src(), poke.get_src())
+    #     pick = [distance, path, poke.get_value()]
+    #     weight = poke.get_value() / (distance + 1) * agent.get_speed()
+
     # TODO: should this return anything?
