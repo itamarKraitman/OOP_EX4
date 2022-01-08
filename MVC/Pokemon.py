@@ -1,10 +1,12 @@
+from graph import Location
 
 class Pokemon:
 
     def __init__(self, _value: float, _type: int, _pos: tuple):
         self._value = _value
         self._type = _type
-        self._pos = _pos
+        pos_location = Location.Location(_pos[0], _pos[1], _pos[2])
+        self._pos = Location.Location(pos_location.get_x(), pos_location.get_y(), pos_location.get_z())
         self.src = None
         self.dest = None
 

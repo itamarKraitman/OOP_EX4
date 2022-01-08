@@ -23,7 +23,8 @@ def parse_pokemon():
     globals()[pokemon_prev_JSON] = json.loads(pokemons_json)
     pokemons = pokemons_str.get("Pokemons")
     for pokemon in pokemons:
-        pokemon_dict = {"value": pokemon.get("value"), "type": pokemon.get("type"), "pos": pokemon.get("pos")}
+        pokemon_dict = {"value": pokemon.get('Pokemon').get("value"), "type": pokemon.get('Pokemon').get("type"),
+                        "pos": pokemon.get('Pokemon').get("pos")}
         pokemons_dictonary[k] = pokemon_dict
         k += 1
     Model.create_pokemons(pokemons_dictonary)
@@ -36,9 +37,10 @@ def parse_agents():
     agents_str = json.loads(agents_json)
     agents = agents_str.get("Agents")
     for new_agent in agents:
-        agent_dict = {"id": new_agent.get("id"), "value": new_agent.get("value"), "src": new_agent.get("src"),
-                      "dest": new_agent.get("dest"),
-                      "speed": new_agent.get("speed"), "pos": new_agent.get("pos")}
+        agent_dict = {"id": new_agent.get('Agent').get("id"), "value": new_agent.get('Agent').get("value"),
+                      "src": new_agent.get('Agent').get("src"),
+                      "dest": new_agent.get('Agent').get("dest"),
+                      "speed": new_agent.get('Agent').get("speed"), "pos": new_agent.get('Agent').get("pos")}
         agents_dictionary[j] = agent_dict
         j += 1
     Model.create_agents(agents_dictionary)
@@ -119,32 +121,33 @@ if __name__ == '__main__':
     client.start_connection(HOST, PORT)
 
     parse_graph()
-    parse_pokemon()
-    parse_agents()
-    print(json.loads(client.get_info()))
-
     graph = get_graph()
-    poke_list = get_pokemons()
-    agent_list = get_agents()
 
+    parse_pokemon()
     # Get how many agents are in the game
     no_of_agents = get_number_of_agents()
 
     # Initial phase - insert all agents in the center of the graph
-    for i in no_of_agents:
+    for i in range(no_of_agents):
         client.add_agent("{\"id\":" + str(graph.centerPoint()) + "}")
+    parse_agents()
+    print(json.loads(client.get_info()))
+
+    poke_list = get_pokemons()
+    agent_list = get_agents()
 
     # We are ready to start the game & timer
     client.start()
     start_time = time.time()
 
+
     # TODO: initial edge choice logic will go here
     # allocate initial state pokemons to agents
     for poke in poke_list:
         Model.allocate_pokemon_to_agent(agent_list, poke)
-    for agent in agent_list:
-        client.choose_next_edge('{"agent_id":' + str(agent_list[agent].get_id()) + ', "next_node_id":'
-                                + str(agent_list[agent].get_path_head()))
+    for a in range(len(agent_list)):
+        client.choose_next_edge('{"agent_id":' + str(agent_list[a].get_id()) + ', "next_node_id":'
+                                + str(poke_list[a].get_src())+'}')
     client.move()
 
     while client.is_running() == 'true':
@@ -157,10 +160,10 @@ if __name__ == '__main__':
 
         update_pokemons()
         make_decision()
-        for agent in agent_list:
-            if agent_list[agent].get_dest() == -1: # TODO: how to update agent position?
+        for agent in range(len(agent_list)):
+            if agent_list[agent].get_dest() == -1:  # TODO: how to update agent position?
                 client.choose_next_edge('{"agent_id":' + str(agent_list[agent].get_id()) + ', "next_node_id":'
-                                        + str(agent_list[agent].path_pop()))
+                                        + str(agent_list[agent].path_pop())+'}')
 
         # TODO: limit to 10 calls per second
         client.move()

@@ -19,8 +19,13 @@ def create_pokemons(poke_dict: dict):
     # i = 0
     for key in poke_dict:
         pokemon_dict = poke_dict.get(key)
-        pokemon = Pokemon.Pokemon(pokemon_dict.get("value"), pokemon_dict.get("type"), pokemon_dict.get("pos"))
-        _set_pokemon_src_dest(pokemon)
+        pos = str(pokemon_dict.get("pos"))
+        split_pos = pos.split(',')
+        x = float(split_pos[0])
+        y = float(split_pos[1])
+        z = float(split_pos[2])
+        pokemon = Pokemon.Pokemon(pokemon_dict.get("value"), pokemon_dict.get("type"), (x, y, z))
+        set_pokemon_src_dest(pokemon)
         pokemons.append(pokemon)
         # i += 1
 
@@ -82,20 +87,22 @@ def quadratic_formula(a, b, c):
     return x1, x2
 
 
-def _set_pokemon_src_dest(p: Pokemon):
-    for edge in graph_load.edges:
-        dist_poke2src = Location.distance(p.get_pos(),graph_load.nodes.get(edge).getPosition())
-        dist_poke2dest = Location.distance(p.get_pos(), edge.getDest())
-        dist_poke2edge = Location.distance_to_edge(p.get_pos, edge.getSrc(), edge.getDest())
-        if abs(dist_poke2src + dist_poke2dest - dist_poke2edge) < 0.00000001:
-            if edge.getSrc() < edge.getDest() and p.get_type() > 0:
-                p.set_src(edge.getSrc())
-                p.set_dest(edge.getDest())
-                break
-            elif edge.getSrc() > edge.getDest() and p.get_type() < 0:
-                p.set_src(edge.getSrc())
-                p.set_dest(edge.getDest())
-                break
+def set_pokemon_src_dest(p: Pokemon):
+    for src in graph_load.edges:
+        for dest in graph_load.all_out_edges_of_node(src):
+            dist_poke2src = Location.distance(p.get_pos(), graph_load.nodes.get(src).getPosition())
+            dist_poke2dest = Location.distance(p.get_pos(), graph_load.nodes.get(dest).getPosition())
+            dist_poke2edge = Location.distance_to_edge(p.get_pos(), graph_load.nodes.get(src).getPosition(),
+                                                       graph_load.nodes.get(dest).getPosition())
+            if abs(dist_poke2src + dist_poke2dest - dist_poke2edge) < 0.01:
+                if src > dest:
+                    p.set_src(src)
+                    p.set_dest(dest)
+                    break
+                elif src < dest:
+                    p.set_src(dest)
+                    p.set_dest(src)
+                    break
 
 
 def allocate_pokemon_to_agent(agent_list: list, poke: Pokemon):
@@ -103,7 +110,8 @@ def allocate_pokemon_to_agent(agent_list: list, poke: Pokemon):
     min_path = []
     min_agent_id = 0
     for i in range(len(agent_list)):
-        temp_path = agent_list[i].get_path().append(poke)
+        temp_path = agent_list[i].get_path()
+        temp_path.append(poke.get_src())
         temp_min_path, temp_min_weight = graph_algo.tsp(temp_path)
         if min_weight > temp_min_weight:
             min_weight = temp_min_weight

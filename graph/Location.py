@@ -12,7 +12,8 @@ def distance(location1, location2):
 def distance_to_edge(to_check, p1, p2):
     x_diff = p2.get_x() - p1.get_x()
     y_diff = p2.get_y() - p1.get_y()
-    num = abs(y_diff * to_check.get_x() - x_diff * to_check.get_y() + p2.get_x() * p1.get_y() - p2.get_y() * p1.get_x())
+    num = abs(y_diff * (to_check.get_x()) - x_diff * (to_check.get_y()) + p2.get_x() * p1.get_y()
+              - p2.get_y() * p1.get_x())
     den = math.sqrt(y_diff ** 2 + x_diff ** 2)
     return num / den
 
