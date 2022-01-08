@@ -4,11 +4,9 @@ from MVC import Model
 import time
 
 """
-
 ===============================================================================
 START of code block consisting of function which will be used by the controller
 ===============================================================================
-
 """
 
 pokemon_prev_JSON = ""
@@ -104,11 +102,9 @@ def return_error():
 
 
 """
-
 ===============================================================================
 END of functions code block, main code below
 ===============================================================================
-
 """
 
 if __name__ == '__main__':

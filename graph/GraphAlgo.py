@@ -14,7 +14,6 @@ It supports these algorithms:
     * Determining if a graph is strongly connected
     * Finding the center of the graph
     * TSP 
-
 This class also plots the graph and displays it to the user using tkinter
 '''
 
