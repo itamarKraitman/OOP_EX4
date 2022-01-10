@@ -16,7 +16,7 @@ class Agent:
         for coordinate in position:
             self.pos.append(float(coordinate))
         self.path = []
-        self.mode = 0
+        self.allocated = 0
 
     # TODO: check if repr needed
     def __repr__(self) -> str:
@@ -76,10 +76,10 @@ class Agent:
     def set_path(self, path: list):
         self.path = path
 
-    def get_mode(self):
+    def get_allocated(self):
         return self.mode
 
-    def set_mode(self, new_mode):
+    def set_allocated(self, new_mode):
         self.mode = new_mode
 
 
@@ -93,7 +93,7 @@ class Pokemon:
             self.pos.append(float(i))
         self.src = None
         self.dest = None
-        self.mode = 0
+        self.allocated = 0
 
     # TODO: check if repr needed
     def __repr__(self) -> str:
@@ -138,8 +138,3 @@ class Pokemon:
         else:
             self.allocated = True
 
-    def get_mode(self):
-        return self.mode
-
-    def set_mode(self, new_mode):
-        self.mode = new_mode
