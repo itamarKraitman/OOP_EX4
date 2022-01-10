@@ -59,4 +59,4 @@ while client.is_running():
             if a.mode == 0:
                 Brain.pick_pok_for_A(a, client)
 
-    time.sleep(0.008)
+    time.sleep(0.08)

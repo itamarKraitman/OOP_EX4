@@ -7,7 +7,7 @@ from client import *
 from pygame.locals import *
 pygame.font.init()
 pygame.mixer.init()
-from Pokemon_im import *
+# from Pokemon_im import *
 client = Client()
 
 WIDTH, HEIGHT = 1080, 720
@@ -38,13 +38,13 @@ class GUI:
         self.COUNT = 0
         self.screen = display.set_mode((WIDTH, HEIGHT), depth=32, flags=RESIZABLE)
 
-        self.POKEMON = pygame.transform.scale(pygame.image.load("../Pokemon_im/pokemon.png"), (self.screen.get_width(), self.screen.get_height()))
-        POKEMON1 = pygame.transform.scale(pygame.image.load("../Pokemon_im/pokemon1.png"), (40, 40))
-        POKEMON2 = pygame.transform.scale(pygame.image.load("../Pokemon_im/pokemon2.png"), (40, 40))
-        POKEMON3 = pygame.transform.scale(pygame.image.load("../Pokemon_im/pokemon3.png"), (40, 40))
-        self.ASH = pygame.transform.scale(pygame.image.load("../Pokemon_im/ash.png"), (60, 60))
-        self.ASH1 = pygame.transform.scale(pygame.image.load("../Pokemon_im/ash1.png"), (60, 60))
-        self.ASH2 = pygame.transform.scale(pygame.image.load("../Pokemon_im/ash2.png"), (40, 40))
+        self.POKEMON = pygame.transform.scale(pygame.image.load("pic_for_ex5/arena.jpg"), (self.screen.get_width(), self.screen.get_height()))
+        POKEMON1 = pygame.transform.scale(pygame.image.load("pic_for_ex5/balbazor.jpg"), (40, 40))
+        POKEMON2 = pygame.transform.scale(pygame.image.load("pic_for_ex5/picatcu.png"), (40, 40))
+        POKEMON3 = pygame.transform.scale(pygame.image.load("pic_for_ex5/pokemon.jpg"), (40, 40))
+        self.ASH = pygame.transform.scale(pygame.image.load("pic_for_ex5/brock.jpg"), (60, 60))
+        self.ASH1 = pygame.transform.scale(pygame.image.load("pic_for_ex5/ash.png"), (60, 60))
+        self.ASH2 = pygame.transform.scale(pygame.image.load("pic_for_ex5/misty.jpg"), (40, 40))
         self.ASH_LIST = (self.ASH, self.ASH1, self.ASH2)
         self.LIST = (POKEMON1, POKEMON2, POKEMON3)
         self.min_x = float('inf')
@@ -165,7 +165,7 @@ class GUI:
 
 
         self.screen.fill(BLACK)
-        back = pygame.transform.scale(pygame.image.load("../Pokemon_im/pokemon.png"),
+        back = pygame.transform.scale(pygame.image.load("pic_for_ex5/arena.jpg"),
                                       (self.screen.get_width(), self.screen.get_height()))
         self.screen.blit(back, [0, 0])
         self.draw_edges()
