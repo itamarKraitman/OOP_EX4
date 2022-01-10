@@ -27,8 +27,8 @@ clock = pygame.time.Clock()
 FONT = pygame.font.SysFont('Arial', 20, bold=True)
 pygame.font.init()
 pygame.display.set_caption("Pokemon Game")
-fmove = pygame.font.SysFont('comicsans', 20)
-end_game_font = pygame.font.SysFont('comicsans', 55, bold=True)
+fmove = pygame.font.SysFont('david', 20, bold=True)
+end_game_font = pygame.font.SysFont('david', 55, bold=True)
 
 
 def scale(data, min_screen, max_screen, min_data, max_data):
@@ -123,16 +123,22 @@ class GUI:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
+                client.stop()
+                client.stop_connection()
                 exit(0)
                 return False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.button_stop.clicked(event):
+                if self.button_stop.clicked():
                     pygame.quit()
+                    client.stop()
+                    client.stop_connection()
                     exit(0)
+                    return False
+
         if time_out == 0:
             self.screen.fill(BLACK)
             game_end = end_game_font.render("GAME OVER!", True, RED)
-            button_text = end_game_font.render("You Earrned: " + grade, True, WHITE)
+            button_text = end_game_font.render("You Earned: " + grade, True, WHITE)
             self.screen.blit(game_end, (self.screen.get_width() / 3, 10))
             self.screen.blit(button_text, (self.screen.get_width() / 5, self.screen.get_height() / 2))
             pygame.display.update()

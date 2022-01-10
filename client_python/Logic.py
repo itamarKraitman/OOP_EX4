@@ -17,7 +17,6 @@ class Logic:
 
     def send_one_agent(self, client: Client):
         i = 0
-        # one agent
         for agent in self.game.agents:
             if agent.dest == -1:
                 path = self.allocate_pokemon(agent)
@@ -26,42 +25,9 @@ class Logic:
                     i += 1
 
     def send_some_agents(self, client: Client):
-        # multiple agents
         for pokemon in self.game.pokemons:
             self.select_agent(pokemon, client)
-        #     age = None
-        #     speed = 0
-        #     min = 0
-        # # min = float('inf')
-        #     for agent in self.game.agents:
-        #         speed = agent.speed
-        #         if speed > min:
-        #             min = speed
-        #             age = agent
 
-        # if t == 1:
-        #     if len(go_to) <= 2:
-        #         if self.game.agents[0].speed >= 3:
-        #             time.sleep(0.02)
-        #         else:
-        #             time.sleep(0.02)
-        #     else:
-        #         if self.game.agents[0].speed <= 3:
-        #             time.sleep(0.75)
-        #         else:
-        #             time.sleep(0.35)
-        #
-        # else:
-        #     if len(go_to) <= 2:
-        #         if self.game.agents[0].speed >= 2:
-        #             time.sleep(0.035)
-        #         else:
-        #             time.sleep(0.035)
-        #     else:
-        #         if self.game.agents[0].speed <= 2:
-        #             time.sleep(0.4)
-        #         else:
-        #             time.sleep(0.085)
 
     def allocate_pokemon(self, agent):
         min_weight = 0
@@ -78,33 +44,6 @@ class Logic:
         result_path.append(selected_pokemon.dest)
         return result_path
 
-    # ////////////////////////////////////////////more then one/////////////////////////////////////////////////////////
-
-    # def multiple_agents(self, client: Client, t):
-    #     pick = []
-    #     for pok in self.game.pokemons:
-    #         pick = self.pick_age(pok, client, t)
-    #
-    #     age = None
-    #     speed = 0
-    #     min = 0
-    #     # min = float('inf')
-    #     for agent in self.game.agents:
-    #         speed = agent.speed
-    #         if speed > min:
-    #             min = speed
-    #             age = agent
-
-        # if len(pick) <= 2:
-        #     if min >= 3:
-        #         time.sleep(0.035)
-        #     else:
-        #         time.sleep(0.035)
-        # else:
-        #     if min <= 3:
-        #         time.sleep(0.12)
-        #     else:
-        #         time.sleep(0.03)
 
     def select_agent(self, pokemon, client):
         if pokemon.allocated == 0:

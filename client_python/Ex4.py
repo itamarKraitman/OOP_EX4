@@ -39,6 +39,6 @@ while client.is_running():
     else:
         for agent in parse.agents:
             Brain.send_some_agents(client)
-            client.move()
             Brain.allocate_pokemon_to_agent(agent, client)
+    client.move()
     time.sleep(0.008)
