@@ -119,16 +119,7 @@ class GUI:
             if i == len(pokemons_list):
                 i = 0
 
-
-    # def draw_ttl(self, ttl: int):
-    #     number_of_move = fmove.render("Time to live: " + str(ttl) + " second", True, WHITE)
-    #     self.screen.blit(number_of_move, (10, self.screen.get_height() - 30))
-
-    def draw_grade(self, grade: int):
-        number_of_move = fmove.render("Grade: " + str(grade), True, YELLOW)
-        self.screen.blit(number_of_move, (self.screen.get_width() - 110, 10))
-
-    def main(self, move, time_out, grade, number_of_agents):
+    def run_all_GUI(self, move, time_out, grade, number_of_agents):
         self.screen.fill(BLACK)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -141,16 +132,16 @@ class GUI:
                     exit(0)
         if time_out == 0:
             self.screen.fill(BLACK)
-            game_end = end_game_font.render("GAME OVER !", True, RED)
-            button_text = end_game_font.render("Results: your grade is - " + grade, True, WHITE)
+            game_end = end_game_font.render("GAME OVER!", True, RED)
+            button_text = end_game_font.render("You Earrned: " + grade, True, WHITE)
             self.screen.blit(game_end, (self.screen.get_width() / 3, 10))
-            self.screen.blit(button_text, (self.screen.get_width() / 6.3, self.screen.get_height() / 2))
+            self.screen.blit(button_text, (self.screen.get_width() / 5, self.screen.get_height() / 2))
             pygame.display.update()
             pygame.time.delay(5000)
             pygame.quit()
             exit(0)
 
-        self.screen.fill(BLACK)
+        # drawing all additional data on the GUI
         back = pygame.transform.scale(pygame.image.load("pic_for_ex5/arena.jpg"),
                                       (self.screen.get_width(), self.screen.get_height()))
         self.screen.blit(back, [0, 0])
