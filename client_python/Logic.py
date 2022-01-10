@@ -1,6 +1,6 @@
 import sys
 
-from GraphAlgo import GraphAlgo
+from client_python.graph.GraphAlgo import GraphAlgo
 from Parser import Parser
 from client import Client
 

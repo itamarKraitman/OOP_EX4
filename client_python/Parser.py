@@ -1,5 +1,5 @@
 import math as m
-from Graph import *
+from client_python.graph.Graph import *
 from Playing_Objects import *
 import json
 from client import Client

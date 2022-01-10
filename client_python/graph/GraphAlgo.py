@@ -2,8 +2,7 @@ import heapq
 import math
 import sys
 
-from Graph import Graph
-import json
+from client_python.graph.Graph import Graph
 
 
 class GraphAlgo:
