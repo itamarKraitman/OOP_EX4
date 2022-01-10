@@ -91,9 +91,9 @@ class Graph:
             loc_x = random.uniform(35.19, 35.22)
             loc_y = random.uniform(32.105, 32.103)
             pos_loc = (loc_x, loc_y, 0)
-            new_node = Node(key=node_id, position=pos_loc, tag=0)
+            new_node = Node(key=node_id, position=pos_loc)
         else:
-            new_node = Node(key=node_id, position=pos, tag=0)
+            new_node = Node(key=node_id, position=pos)
         if new_node.key not in self.nodes.keys():
             self.nodes[new_node.key] = new_node
             self.mc += 1

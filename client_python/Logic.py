@@ -1,3 +1,5 @@
+import sys
+
 from GraphAlgo import GraphAlgo
 from Parser import Parser
 from client import Client
@@ -17,24 +19,19 @@ class Logic:
     def __init__(self, game: Parser()):
         self.game = game
         self.client = Client()
-        # TODO: check if needed
-     #   self.dijkstra = dijkstra(self.game.graph)
-        self.inf = float('inf')
-        self.fast_move = time.sleep(0.035)
-        self.low_move = time.sleep(0.1)
+        self.inf = sys.maxsize
 
-    def cmd_solo(self, client: Client, t):
-        pick = []
+    def one_agent(self, client: Client, t):
+        go_to = []
 
         for agent in self.game.agents:
             if agent.dest == -1:
-                pick = self.pick_pok(agent)
-                for i in pick:
-                    client.choose_next_edge('{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(pick[1]) + '}')
+                go_to = self.pick_pok(agent)
+                for i in go_to:
+                    client.choose_next_edge('{"agent_id":' + str(agent.id) + ', "next_node_id":' + str(go_to[1]) + '}')
 
-        # ///////////////stop singel//////////////////////////////
         if t == 1:
-            if len(pick) <= 2:
+            if len(go_to) <= 2:
                 if self.game.agents[0].speed >= 3:
                     time.sleep(0.02)
                 else:
@@ -46,7 +43,7 @@ class Logic:
                     time.sleep(0.35)
 
         else:
-            if len(pick) <= 2:
+            if len(go_to) <= 2:
                 if self.game.agents[0].speed >= 2:
                     time.sleep(0.035)
                 else:
@@ -60,8 +57,8 @@ class Logic:
     # //////////////////////////////////////////////////////////////
 
     def pick_pok(self, agent):
-        G = self.game.graph
-        GA = GraphAlgo(G)
+        graph = self.game.graph
+        graph_algo = GraphAlgo(graph)
         pick = []
         res = []
         min = 0
@@ -78,7 +75,7 @@ class Logic:
                     pok.src = 7
                     pok.dest = 6
 
-                s = GA.shortest_path(agent.src, pok.src)
+                s = graph_algo.shortest_path(agent.src, pok.src)
                 # t = GA.shortest_path(pok.src,pok.dest)
                 pick = s[0], s[1], pok.value
 
@@ -103,7 +100,7 @@ class Logic:
 
     # ////////////////////////////////////////////more then one/////////////////////////////////////////////////////////
 
-    def cmd_group(self, client: Client, t):
+    def multiple_agents(self, client: Client, t):
         pick = []
         for pok in self.game.pokemons:
             pick = self.pick_age(pok, client, t)
@@ -169,8 +166,8 @@ class Logic:
             return res
 
     def pick_pok_for_A(self, agent, client):
-        G = self.game.graph
-        GA = GraphAlgo(G)
+        graph = self.game.graph
+        graph_algo = GraphAlgo(graph)
         pick = []
         res = []
         min = 0
@@ -187,7 +184,7 @@ class Logic:
                 pok.src = 7
                 pok.dest = 6
 
-            s = GA.shortest_path(agent.src, pok.src)
+            s = graph_algo.shortest_path(agent.src, pok.get_src())
             # t = GA.shortest_path(pok.src,pok.dest)
             pick = s[0], s[1], pok.value
 

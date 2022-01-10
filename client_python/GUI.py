@@ -32,7 +32,7 @@ pygame.font.init()
 pygame.display.set_caption("Pokemon Game")
 
 
-class graphGame:
+class GUI:
     def __init__(self, game: Parser()):
         self.game = game
         self.COUNT = 0
@@ -82,14 +82,15 @@ class graphGame:
 
     def draw_edges(self):
         graph = self.game.graph
-        for i in graph.edges.keys():
-            src = graph.nodes[i[0]]
-            dest = graph.nodes[i[1]]
-            src_x = self.my_scale(src.pos[0], x=True)
-            src_y = self.my_scale(src.pos[1], y=True)
-            dest_x = self.my_scale(dest.pos[0], x=True)
-            dest_y = self.my_scale(dest.pos[1], y=True)
-            pygame.draw.line(self.screen, Color(WHITE), (src_x, src_y), (dest_x, dest_y), width=5)
+        for src in graph.edges:
+            for dest in graph.edges.get(src):
+                source = graph.get_node(src)
+                destination = graph.get_node(dest)
+                src_x = self.my_scale(source.pos[0], x=True)
+                src_y = self.my_scale(source.pos[1], y=True)
+                dest_x = self.my_scale(destination.pos[0], x=True)
+                dest_y = self.my_scale(destination.pos[1], y=True)
+                pygame.draw.line(self.screen, Color(WHITE), (src_x, src_y), (dest_x, dest_y), width=5)
 
     def draw_agent(self, size: int):
         agents = self.game.agents

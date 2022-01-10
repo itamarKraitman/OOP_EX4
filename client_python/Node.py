@@ -8,12 +8,13 @@ Values: key - the id number of the node.
 """
 
 
+# TODO : change comment at the top
+
 class Node:
     # constructor
-    def __init__(self, key, position: tuple, tag=0):
+    def __init__(self, key, position: tuple):
         self.key = key
         # self.position = position.copyLoc(position)
-        self.tag = tag
         self.pos = position
         self.weight = None
 
@@ -26,12 +27,6 @@ class Node:
     def setPosition(self, coordinates: tuple):
         self.pos = coordinates
 
-    def getTag(self):
-        return self.tag
-
-    def setTag(self, newTag):
-        self.tag = newTag
-
     def __str__(self):
         return f'key = {self.key}, ' f'pos = {self.pos}'
 
@@ -39,6 +34,3 @@ class Node:
     # String with node's values
     def __repr__(self) -> str:
         return f'key = {self.key}, ' f'pos = {self.pos}'
-
-
-
