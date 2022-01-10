@@ -54,7 +54,6 @@ agents_list = (brock, ash, misty)
 
 background = pygame.transform.scale(pygame.image.load("pic_for_ex5/arena.jpg"), (WIDTH, HEIGHT))
 
-
 class GUI:
 
     def __init__(self, game: Parser()):
