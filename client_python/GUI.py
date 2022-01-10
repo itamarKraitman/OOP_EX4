@@ -160,4 +160,4 @@ class GUI:
         self.screen.blit(number_of_move, (self.screen.get_width() - 110, 10))
         self.button_stop.draw()
         display.update()
-        clock.tick(10)
+        clock.tick(9)
