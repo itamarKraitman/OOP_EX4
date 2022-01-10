@@ -30,7 +30,7 @@ pygame.display.set_caption("Pokemon Game")
 fmove = pygame.font.SysFont('david', 20, bold=True)
 end_game_font = pygame.font.SysFont('david', 55, bold=True)
 
-
+""" some scaling methods"""
 def scale(data, min_screen, max_screen, min_data, max_data):
     return ((data - min_data) / (max_data - min_data)) * (max_screen - min_screen) + min_screen
 
@@ -41,17 +41,17 @@ def my_scale(screen, min_x, max_x, min_y, max_y, data, x=False, y=False):
     if y:
         return scale(data, 50, screen.get_height() - 50, min_y, max_y)
 
-
+"""defining some pokemons and agents pictures in order to make the GUI look better"""
 balbazor = pygame.transform.scale(pygame.image.load("pic_for_ex5/balbazor.jpg"), (50, 50))
 picatcu = pygame.transform.scale(pygame.image.load("pic_for_ex5/picatcu.png"), (50, 50))
 unknown_pokemon = pygame.transform.scale(pygame.image.load("pic_for_ex5/pokemon.jpg"), (50, 50))
 pokemons_list = (balbazor, picatcu, unknown_pokemon)
-
+# agents
 brock = pygame.transform.scale(pygame.image.load("pic_for_ex5/brock.jpg"), (60, 60))
 ash = pygame.transform.scale(pygame.image.load("pic_for_ex5/ash.png"), (60, 60))
 misty = pygame.transform.scale(pygame.image.load("pic_for_ex5/misty.jpg"), (60, 60))
 agents_list = (brock, ash, misty)
-
+# background photo
 background = pygame.transform.scale(pygame.image.load("pic_for_ex5/arena.jpg"), (WIDTH, HEIGHT))
 
 class GUI:
@@ -78,6 +78,10 @@ class GUI:
             self.max_y = max(self.max_y, y)
 
     def drawing_graph(self):
+        """
+        this method draws the graph- nodes and edges
+        :return:
+        """
         for n in self.graph.nodes.values():
             x = my_scale(self.screen, self.min_x, self.max_x, self.min_y, self.max_y, n.pos[0], x=True)
             y = my_scale(self.screen, self.min_x, self.max_x, self.min_y, self.max_y, n.pos[1], y=True)
@@ -99,6 +103,11 @@ class GUI:
                 pygame.draw.line(self.screen, Color(WHITE), (sx, sy), (dx, dy), width=5)
 
     def draw_agents_pokemons(self, number_of_agents: int):
+        """
+        this method draws the pokemons and the agents on the GUI
+        :param number_of_agents:
+        :return:
+        """
         agents = self.pokemon_game.agents
         pokemons = self.pokemon_game.pokemons
         i = 0
@@ -119,6 +128,14 @@ class GUI:
                 i = 0
 
     def run_all_GUI(self, move, time_out, grade, number_of_agents):
+        """
+        this method runs the complete GUI
+        :param move:
+        :param time_out:
+        :param grade:
+        :param number_of_agents:
+        :return:
+        """
         self.screen.fill(BLACK)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -126,14 +143,11 @@ class GUI:
                 client.stop()
                 client.stop_connection()
                 exit(0)
-                return False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.button_stop.clicked():
-                    pygame.quit()
-                    client.stop()
-                    client.stop_connection()
-                    exit(0)
-                    return False
+                pygame.quit()
+                client.stop()
+                client.stop_connection()
+                exit(0)
 
         if time_out == 0:
             self.screen.fill(BLACK)

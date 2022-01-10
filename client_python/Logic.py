@@ -16,6 +16,12 @@ class Logic:
         self.graph_algo = GraphAlgo(self.graph)
 
     def send_one_agent(self, client: Client):
+        """
+        this method allocate the agent to all pokemons, this method is called only when there only one agent is given from server
+        this method uses allocate_pokemon method
+        :param client:
+        :return:
+        """
         i = 0
         for agent in self.game.agents:
             if agent.dest == -1:
@@ -25,11 +31,22 @@ class Logic:
                     i += 1
 
     def send_some_agents(self, client: Client):
+        """
+        this method send each agent to correct pokemon in case more than one agent was given from server
+        :param client:
+        :return:
+        """
         for pokemon in self.game.pokemons:
             self.select_agent(pokemon, client)
 
 
     def allocate_pokemon(self, agent):
+        """
+        this method organizes the path that the agent should pass in order to pick as much pokemons as possible,
+        along side as mush score as possible
+        :param agent:
+        :return: rsult path: path of nodes
+        """
         min_weight = 0
         selected_pokemon = None
         result_path = []
@@ -46,6 +63,12 @@ class Logic:
 
 
     def select_agent(self, pokemon, client):
+        """
+        this method selects the right agent to allocate to the pokemon considering distance
+        :param pokemon:
+        :param client:
+        :return:
+        """
         if pokemon.allocated == 0:
             pokemon.allocated = 1
             path_result = None
@@ -68,6 +91,12 @@ class Logic:
 
 
     def allocate_pokemon_to_agent(self, agent, client):
+        """
+        this method allocats to each pokemon the right agent
+        :param agent:
+        :param client:
+        :return:
+        """
         result_path = []
         min_weight = 0
         selected_pokemon = None

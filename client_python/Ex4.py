@@ -33,6 +33,7 @@ while client.is_running():
     grade = grade[3].split(":")[1]
     drawer.run_all_GUI(no_of_moves, int(time_to_end / 1000), grade, no_of_agents)
     print(time_to_end, client.get_info(), parse.agents[0].speed)
+    # if only one agent
     if no_of_agents == 1:
         Brain.send_one_agent(client)
         client.move()

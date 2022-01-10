@@ -20,7 +20,14 @@ class Parser:
         self.agents = []
 
     def parse_server_info(self, pokemons=None, agents=None, graph=None):
-
+        """
+        this method is responsible to parse the data which is given from the server- graph, pokemons and agents
+        this method uses the parse_graph, parss_agents and parse_pokemons methods aheaad
+        :param pokemons:
+        :param agents:
+        :param graph:
+        :return:
+        """
         if graph is not None:
             graph_json = json.loads(graph)
             self.parse_graph(graph_json)
@@ -51,48 +58,42 @@ class Parser:
         self.pokemons.clear()
         for i in pokemon_str['Pokemons']:
             p = Pokemon(i['Pokemon'])
-            self.pok_pos(p)
+            self.pokemon_position(p)
             self.pokemons.append(p)
 
-    """
-    Function to determine which edge a Pokemon is on
-    :param Pokemon
-    :returns source, destination for Pokemon
-    """
-    #TODO: Change
-
-    def pok_pos(self, pok: Pokemon):
+    def pokemon_position(self, pokemon: Pokemon):
+        """
+        this method target is to determine on which edge the pokemon is on
+        this method used the distance, distance,_pokemon_to_node and is_edge method below
+        :param pokemon:
+        :return:
+        """
         for source_node in self.graph.nodes:
             for dest_node in self.graph.nodes:
-                d1 = self.distance(self.graph.nodes[source_node], self.graph.nodes[dest_node])
-                d2 = (self.distance_poke2node(self.graph.nodes[source_node], pok) +
-                      self.distance_poke2node(self.graph.nodes[dest_node], pok))
-                ans = abs(d1-d2)
+                distance = self.distance(self.graph.nodes[source_node], self.graph.nodes[dest_node])
+                distance2 = (self.distance_pokemon_to_node(self.graph.nodes[source_node], pokemon) +
+                             self.distance_pokemon_to_node(self.graph.nodes[dest_node], pokemon))
+                ans = abs(distance - distance2)
                 if ans <= EPS:
-                    if pok.type == -1:
+                    if pokemon.type == -1:
                         dest = min(source_node, dest_node)
                         src = max(source_node, dest_node)
 
                     else:
                         dest = max(source_node, dest_node)
                         src = min(source_node, dest_node)
-
                     if self.is_edge(src, dest):
-                        pok.src = src
-                        pok.dest = dest
+                        pokemon.src = src
+                        pokemon.dest = dest
                         return
 
-    # TODO: change these two functions
     def distance(self, node1: Node, node2: Node):
-        dis = m.sqrt(pow(node1.pos[0] - node2.pos[0], 2) + pow(node1.pos[1] - node2.pos[1], 2))
-        return dis
+        return m.sqrt(pow(node1.pos[0] - node2.pos[0], 2) + pow(node1.pos[1] - node2.pos[1], 2))
 
-    def distance_poke2node(self, node1: Node, pok: Pokemon):
-        dis = m.sqrt(pow(node1.pos[0] - pok.pos[0], 2) + pow(node1.pos[1] - pok.pos[1], 2))
-        return dis
+    def distance_pokemon_to_node(self, node1: Node, pok: Pokemon):
+        return m.sqrt(pow(node1.pos[0] - pok.pos[0], 2) + pow(node1.pos[1] - pok.pos[1], 2))
 
-    # Don't need to change this, this is ORIGINAL
-    def is_edge(self,id1,id2):
+    def is_edge(self, id1, id2):
         if id1 in self.graph.edges and id2 in self.graph.edges[id1]:
             return True
         else:
