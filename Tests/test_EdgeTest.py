@@ -1,22 +1,22 @@
 import unittest
-from graph.Edge import Edge
-from graph.Node import Node
-from graph.Location import Location
+from client_python.graph import Edge
+from client_python.graph import Node
+from client_python.graph import Location
 
 
 class MyTestCase(unittest.TestCase):
-    n1 = Node(key=1, position=(1, 3, 0))
-    n2 = Node(key=2, position=(2, 4, 0))
-    n3 = Node(key=3, position=(1, 5, 0))
-    n4 = Node(key=4, position=(3, 2, 0))
-    n5 = Node(key=5, position=(0, 3, 0))
+    n1 = Node.Node(key=1, position=(1, 3, 0))
+    n2 = Node.Node(key=2, position=(2, 4, 0))
+    n3 = Node.Node(key=3, position=(1, 5, 0))
+    n4 = Node.Node(key=4, position=(3, 2, 0))
+    n5 = Node.Node(key=5, position=(0, 3, 0))
 
-    e1 = Edge(src=n1.getKey(), dest=n2.getKey(), weight=0.265)
-    e2 = Edge(src=n2.getKey(), dest=n4.getKey(), weight=0.564)
-    e3 = Edge(src=n4.getKey(), dest=n5.getKey(), weight=1.26578)
-    e4 = Edge(src=n5.getKey(), dest=n3.getKey(), weight=1.9852)
-    e5 = Edge(src=n3.getKey(), dest=n1.getKey(), weight=0.65998)
-    e6 = Edge(src=n1.getKey(), dest=n4.getKey(), weight=1.659874)
+    e1 = Edge.Edge(src=n1.getKey(), dest=n2.getKey(), weight=0.265)
+    e2 = Edge.Edge(src=n2.getKey(), dest=n4.getKey(), weight=0.564)
+    e3 = Edge.Edge(src=n4.getKey(), dest=n5.getKey(), weight=1.26578)
+    e4 = Edge.Edge(src=n5.getKey(), dest=n3.getKey(), weight=1.9852)
+    e5 = Edge.Edge(src=n3.getKey(), dest=n1.getKey(), weight=0.65998)
+    e6 = Edge.Edge(src=n1.getKey(), dest=n4.getKey(), weight=1.659874)
 
     def test_getSrc(self):
         self.assertEqual(self.e1.getSrc(), 1)
@@ -41,7 +41,6 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(self.e4.getWeight(), 1.9852)
         self.assertEqual(self.e5.getWeight(), 0.65998)
         self.assertEqual(self.e6.getWeight(), 1.659874)
-
 
 
 if __name__ == '__main__':

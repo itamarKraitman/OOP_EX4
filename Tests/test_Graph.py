@@ -1,7 +1,6 @@
 import unittest
 
-from client_python.graph import Edge, Graph
-from client_python import Node
+from client_python.graph import Edge, Graph, Node
 
 
 class MyTestCase(unittest.TestCase):

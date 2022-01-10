@@ -1,7 +1,6 @@
 import unittest
 
-from client_python import Node
-from client_python.graph import Location
+from client_python.graph import Location, Node
 
 
 class NodeTest(unittest.TestCase):
@@ -18,32 +17,6 @@ class NodeTest(unittest.TestCase):
         self.assertEqual(self.n3.getKey(), 3)
         self.assertEqual(self.n4.getKey(), 4)
         self.assertEqual(self.n5.getKey(), 5)
-
-    def test_getPosition(self):
-        self.assertEqual(self.n1.getPosition().__str__(), Location.Location(1, 3, 0).__str__())
-        self.assertEqual(self.n2.getPosition().__str__(), Location.Location(2, 4, 0).__str__())
-        self.assertEqual(self.n3.getPosition().__str__(), Location.Location(1, 5, 0).__str__())
-        self.assertEqual(self.n4.getPosition().__str__(), Location.Location(3, 2, 0).__str__())
-        self.assertEqual(self.n5.getPosition().__str__(), Location.Location(0, 3, 0).__str__())
-
-    def test_setPosition(self):
-        coordinates = (5, 6, 0)
-        self.n1.setPosition(coordinates)
-        self.n2.setPosition(coordinates)
-        self.n3.setPosition(coordinates)
-        self.n4.setPosition(coordinates)
-        self.n5.setPosition(coordinates)
-        self.assertEqual(self.n1.getPosition().__str__(),
-                         Location.Location(coordinates[0], coordinates[1], coordinates[2]).__str__())
-        self.assertEqual(self.n2.getPosition().__str__(),
-                         Location.Location(coordinates[0], coordinates[1], coordinates[2]).__str__())
-        self.assertEqual(self.n3.getPosition().__str__(),
-                         Location.Location(coordinates[0], coordinates[1], coordinates[2]).__str__())
-        self.assertEqual(self.n4.getPosition().__str__(),
-                         Location.Location(coordinates[0], coordinates[1], coordinates[2]).__str__())
-        self.assertEqual(self.n5.getPosition().__str__(),
-                         Location.Location(coordinates[0], coordinates[1], coordinates[2]).__str__())
-
 
 if __name__ == '__main__':
     runner = unittest.main()
