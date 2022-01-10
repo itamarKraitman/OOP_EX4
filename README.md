@@ -30,7 +30,7 @@ scenarios are numbered 0-15
 In this assignment, the main problem that we had to deal with is how to place the Pokemon correctly on the edges of the graph, then, how to make the Agents go to the right Edge and collect the Pokemon - All while keeping the code from sending over 10 move requests per second to not overload the server.<br>
 We solved this by using mathematical formulas to calculate each Pokemon's position and calculating the distance from every other node on the graph, once that distance is smaller then a defined epsilon value - we've hit the jackpot and that is the pokemons location.
 <br> Once we had all the graph & Pokemon set up, we sent each agent to it's closest Pokemon for quick pick up - we seperated our algorithm for one agent or multiple agents to have everyone synchronized and not chase after the same Pokemon.
-Below is our UML diagram for the project and the results table.
+UML diagram is uncluded in source files and our results table is below.
 
 ## Project Structure
 
@@ -44,3 +44,6 @@ The workspace contains these folders by default, where:
   - `pic_for_ex5`: contains all the pictures used in the GUI
 - `tests`: contains all test files
 
+## Results
+
+![img.png](results.png)
