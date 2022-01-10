@@ -1,34 +1,25 @@
 import heapq
 import math
 import sys
-from collections import deque
-from typing import List
 
-from graph import Graph
-
-'''
-This class is used to perform various algorithms on the underlying directed weighted graph.
-It supports these algorithms:
-    * Depth-First Search
-    * Dijkstr'a Shortest Path
-    * Determining if a graph is strongly connected
-    * Finding the center of the graph
-    * TSP 
-This class also plots the graph and displays it to the user using tkinter
-'''
+from Graph import Graph
+import json
 
 
 class GraphAlgo:
+    # constructor
+    def __init__(self, graph=Graph()) -> None:
+        self.graph = graph
+        # TODO: check if needed
+        #self.dijkstra = dijkstra(graph)
+        self.inf = float('inf')
 
-    def __init__(self, *args):
-        if len(args) == 1:
-            self.graph = args[0]
-        else:
-            self.graph = Graph()
-
-    def get_graph(self):
+    # getter for the graph
+    def get_graph(self) -> Graph():
         return self.graph
 
+    # function to find the shortest path from a given node to another given node
+    # in order to do that we use dijkstra algorithm
     def shortest_path(self, id1: int, id2: int) -> (float, list):
         # Running dijkstr'a algorithm to get all weights of paths from the source node and also the parent dictionary
         # to reconstruct the shortest path
@@ -115,74 +106,18 @@ class GraphAlgo:
         for node in self.get_graph().get_all_v().values():
             node.weight = math.inf
 
-    """
-    TSP algorithm to find optimal route between a group of nodes.
-    algorithm runs in O(n^2 * 2^n)
-    """
-
-    # def tsp(self, node_lst: List[int]) -> (List[int], float):
-    #     shortest_path_weight = sys.maxsize
-    #     total_path_weight = 0
-    #     minimum = 0
-    #     path = []
-    #     for i in range(len(node_lst)):
-    #         for j in range(len(node_lst)):
-    #             curr_path_weight = self.shortest_path(i, j)[0]
-    #             if shortest_path_weight > curr_path_weight:
-    #                 minimum = j
-    #                 shortest_path_weight = curr_path_weight
-    #             total_path_weight += shortest_path_weight
-    #             path.append(self.shortest_path(i, minimum)[1])
-    #             node_lst.pop(i)
-    #     return path, total_path_weight
-    def TSP(self, node_lst: List[int]) -> (List[int], float):
-        if node_lst is None or len(node_lst) == 0:
-            return None
-
-        nearest_neighbour = node_lst[0]
-        path = []
-        total_path_weight = 0
-
-        # We keep going as long as there's more than 1 node in our list
-        # One node is not enough to calculate TSP solution
-        while len(node_lst) > 1:
-            node_lst.remove(nearest_neighbour)
-            min_length = math.inf
-            temp_path = []
-            for city in range(len(node_lst)):
-                temp = self.shortest_path(nearest_neighbour, node_lst[city])
-                if temp[0] == math.inf:
-                    break
-                if temp[0] < min_length:
-                    min_length = temp[0]
-                    temp_path = temp[1]
-                    current_node = node_lst[city]
-
-            if len(path) == 0:
-                path.extend(temp_path)
-            else:
-                temp_path.pop(0)
-                path.extend(temp_path)
-
-            total_path_weight = total_path_weight + min_length
-            nearest_neighbour = current_node
-
-        return path, total_path_weight
 
     """
-    This algorithm returns the center point of the graph, first we check if the graph is even strongly connected -
-    otherwise it has no center node ( We do this by running DFS twice from the same node while transposing the graph )
-    Then, we run dijkstr'a algorithm for each node to determine it's maximum distance and then return the minimum
-    value related to said node - that is the center.
+        This algorithm returns the center point of the graph, first we check if the graph is even strongly connected -
+        otherwise it has no center node ( We do this by running DFS twice from the same node while transposing the graph )
+        Then, we run dijkstr'a algorithm for each node to determine it's maximum distance and then return the minimum
+        value related to said node - that is the center.
     """
-
     def centerPoint(self) -> int:
-        # first, we make sure the graph is strongly connected
-        if self.is_connected():
-            min_distance = sys.float_info.max
-            node_id = -1
+        min_distance = sys.float_info.min
+        node_id = 1
 
-            for vertex in self.get_graph().get_all_v():
+        for vertex in self.get_graph().get_all_v():
                 curr_node = vertex
                 max_distance = sys.float_info.min
                 for node in self.get_graph().get_all_v():
@@ -202,45 +137,4 @@ class GraphAlgo:
                     min_distance = max_distance
                     node_id = vertex
 
-            return node_id
-        else:
-            # if no center is found, graph is not strongly connected
-            return 0
-
-    # A simple DFS implementation using a double-edged queue acting as a stack
-    def DFS(self, v: int, b: bool):
-        stack = deque()
-        stack.append(self.graph.nodes.get(v))
-        flag = True
-        while flag:
-            if stack:
-                v = stack.pop()
-                if self.graph.get_node(v.getKey()).getTag() == 1:
-                    continue
-                self.graph.get_node(v.getKey()).setTag(1)
-
-                if b:
-                    u = self.graph.all_out_edges_of_node(v.getKey())
-                else:
-                    u = self.graph.all_out_edges_of_rev_node(v.getKey())
-                for e in u.keys():
-                    if self.graph.get_node(e).getTag() == 0:
-                        stack.append(self.graph.get_node(e))
-            else:
-                flag = False
-
-    def is_connected(self) -> bool:
-        self.graph.reset_tags()
-        it = iter(self.graph.nodes)
-        v = next(it)
-        self.DFS(v, True)
-        for node in it:
-            if self.graph.get_node(node).getTag() == 0:
-                return False
-
-        it2 = iter(self.graph.nodes)
-        self.DFS(v, False)
-        for node2 in it2:
-            if self.graph.get_node(node2).getTag() == 0:
-                return False
-        return True
+        return node_id

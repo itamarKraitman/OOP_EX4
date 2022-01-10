@@ -1,6 +1,11 @@
-import collections
 import random
-from graph import Node
+import collections
+from Node import *
+
+"""
+This class represents a Directed Weighted Graph, it supports adding/removing nodes,
+iterating over the nodes and edges and also holds the transposed graph
+"""
 
 
 class Graph:
@@ -83,19 +88,18 @@ class Graph:
 
     def add_node(self, node_id: int, pos: tuple = None) -> bool:
         if pos is None:
-            loc_x = random.randrange(0, 10)
-            loc_y = random.randrange(0, 10)
+            loc_x = random.uniform(35.19, 35.22)
+            loc_y = random.uniform(32.105, 32.103)
             pos_loc = (loc_x, loc_y, 0)
-            new_node = Node.Node(key=node_id, position=pos_loc, tag=0)
+            new_node = Node(key=node_id, position=pos_loc, tag=0)
         else:
-            new_node = Node.Node(key=node_id, position=pos, tag=0)
+            new_node = Node(key=node_id, position=pos, tag=0)
         if new_node.key not in self.nodes.keys():
             self.nodes[new_node.key] = new_node
             self.mc += 1
             self.node_counter += 1
             return True
         else:
-            print("This ID Is Already Exist")
             return False
 
     def remove_node(self, node_id: int) -> bool:
@@ -148,3 +152,7 @@ class Graph:
     def reset_tags(self):
         for node in self.nodes:
             self.nodes.get(node).setTag(0)
+
+    # ToString
+    def __repr__(self) -> str:
+        return f'{self.nodes} ' f'{self.edges}'
