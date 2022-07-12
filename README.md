@@ -1,4 +1,4 @@
-# Pokemon Game In Python**
+# Pokemon Game In Python
 >By Itamar Kraitman & Yuval Bubnovsky
 
 Object-Oriented Programming course @ Ariel University, exercise 4 (and last!)
